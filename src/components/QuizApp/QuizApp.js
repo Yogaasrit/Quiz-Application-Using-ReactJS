@@ -104,7 +104,7 @@ const QuizApp = () => {
 
   return (
     <center>
-    {printResult? <Result answers = {answer} array= {quizQuestion}/> : (<div className="card text-center text-white bg-secondary mb-3 w-50">
+    {printResult? <Result answers = {answer} array= {quizQuestion} score = {mark}/> : (<div className="card text-center text-white bg-secondary mb-3 w-50">
         <div style={{ backgroundColor: "#222831", padding: "20px" }}>
           <div className="card-header">
             <h3>TEST YOUR KNOWLEDGE💡</h3>

@@ -4,7 +4,6 @@ const Result = (props) => {
   console.log(props);
   console.log(props.answers);
 
- let score = 0;
  const [showScore, setShowScore] = useState(false);
  const handleDisplayScore = () =>{
     setShowScore(true);
@@ -29,7 +28,7 @@ const Result = (props) => {
                     <i className="fa fa-quote-left text-white"></i>
                   </div>
                   <div>
-                    {showScore=== true ? (<h5>Your Score : {score}</h5>):''}
+                    {showScore=== true ? (<h5>Your Score : {props.score}/4</h5>):''}
                   <button className = 'btn btn-primary' onClick = {handleDisplayScore}>Your Score</button>
                     <h5 className="mb-0 mt-2 font-italic">
                       The correct answer with the explanation is displayed.
