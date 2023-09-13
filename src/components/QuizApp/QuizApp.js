@@ -41,9 +41,23 @@ const QuizApp = () => {
         option3: "5000",
         option4: "3030",
       },
-      answer: "3030",
+      answer: "3000",
       selected: "",
     },
+    {
+      id: 4,
+      question:
+        "What command is used to start the React local development server??",
+      options: {
+        option1: "npm start",
+        option2: "npm build",
+        option3: "npm run",
+        option4: "npm serve",
+      },
+      answer: "npm start",
+      selected: "",
+    },
+    
   ];
 
   const [isCorrect, setIsCorrect] = useState(false);
@@ -68,7 +82,7 @@ const QuizApp = () => {
     })
     if(quizQuestion[quesnumber].answer === choice) {
       // console.log("!");
-      setIsCorrect(true);
+      setIsCorrect(!isCorrect);
       setMark(mark + 1);
     }
   }
@@ -89,8 +103,8 @@ const QuizApp = () => {
   };
 
   return (
-    <>
-    {printResult? <Result Answers = {answer}/> : (<div className="card text-center text-white bg-secondary mb-3 w-50">
+    <center>
+    {printResult? <Result answers = {answer} array= {quizQuestion}/> : (<div className="card text-center text-white bg-secondary mb-3 w-50">
         <div style={{ backgroundColor: "#222831", padding: "20px" }}>
           <div className="card-header">
             <h3>TEST YOUR KNOWLEDGE💡</h3>
@@ -156,9 +170,9 @@ const QuizApp = () => {
             </div>
           </div>
           <p className="card-text">
-            {isCorrect ? "Correct Answer" : "Wrong Answer"}
+            {/* {isCorrect ? "Correct Answer" : "Wrong Answer"} */}
           </p>
-          <p className="card-text">Your total marks : {mark}</p>
+          {/* <p className="card-text">Your total marks : {mark}</p> */}
 
           <div className="card-footer text-muted">
             {quesnumber >= 1 ? (
@@ -172,7 +186,7 @@ const QuizApp = () => {
             ) : (
               ""
             )}
-            {quesnumber < 2 ? (
+            {quesnumber < 3 ? (
               <Button
                 type="button"
                 className="btn btn-primary"
@@ -183,7 +197,7 @@ const QuizApp = () => {
             ) : (
               ""
             )}
-            {quesnumber === 2 ? (
+            {quesnumber === 3 ? (
               <Button
                 type="button"
                 className="btn btn-danger"
@@ -199,7 +213,7 @@ const QuizApp = () => {
         </div>
       </div>)}
       
-    </>
+    </center>
   );
 };
 
