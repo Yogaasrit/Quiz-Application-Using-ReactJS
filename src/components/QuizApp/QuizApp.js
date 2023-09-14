@@ -57,37 +57,47 @@ const QuizApp = () => {
       answer: "npm start",
       selected: "",
     },
-    
   ];
-
+  // let choosenAnswer = '';
   const [isCorrect, setIsCorrect] = useState(false);
   const [quesnumber, setQuesnumber] = useState(0);
   const [mark, setMark] = useState(0);
   const [printResult, setPrintResult] = useState(false);
+  const [choosenAnswer, setChoosenAnswer] = useState("");
 
-  const [answer,answerDispacther] = useReducer(SelectedAnswers);
+  const [answer, answerDispacther] = useReducer(SelectedAnswers);
 
   const handleQuizAnswer = (choice, id) => {
+    // choosenAnswer = choice;
+    setChoosenAnswer(choice);
+    // console.log(ch);
+    console.log(choosenAnswer);
     setIsCorrect(false);
     // console.log(choice);
     // console.log(id);
     // console.log(quizQuestion[quesnumber].answer);
-    // quizQuestion[quesnumber].selected = "choice";
+    // quizQuestion[quesnumber].selected  "choice";
     // console.log("!"+quizQuestion[quesnumber].selected)
-    answerDispacther({
-      type : 'ADD_ANSWER',
-      payload : {
-        answer : choice
-      }
-    })
-    if(quizQuestion[quesnumber].answer === choice) {
+
+    if (quizQuestion[quesnumber].answer === choice) {
       // console.log("!");
       setIsCorrect(!isCorrect);
       setMark(mark + 1);
     }
-  }
+  };
   // console.log(answer);
   const handleNextQuestion = () => {
+    console.log(choosenAnswer);
+    answerDispacther({
+      type: "ADD_ANSWER",
+      payload: {
+        answer: choosenAnswer,
+        id: quesnumber,
+      },
+    });
+    if (answer?.length < 4 && quesnumber === 3) {
+      alert("You have not answered all the questions..");
+    }
     setIsCorrect(false);
     console.log(quesnumber + 1);
     setQuesnumber(quesnumber + 1);
@@ -96,6 +106,13 @@ const QuizApp = () => {
   const handlePreviousQuestion = () => {
     setIsCorrect(false);
     setQuesnumber(quesnumber - 1);
+    answerDispacther({
+      type: "EDIT_ANSWER",
+      payload: {
+        answer: choosenAnswer,
+        id: quesnumber,
+      },
+    });
   };
 
   const handleChoosenOptions = () => {
@@ -104,115 +121,144 @@ const QuizApp = () => {
 
   return (
     <center>
-    {printResult? <Result answers = {answer} array= {quizQuestion} score = {mark}/> : (<div className="card text-center text-white bg-secondary mb-3 w-50">
-        <div style={{ backgroundColor: "#222831", padding: "20px" }}>
-          <div className="card-header">
-            <h3>TEST YOUR KNOWLEDGE💡</h3>
-          </div>
-          <div className="card-body">
-            <h5 className="card-title">Choose the best answer:</h5>
-            <p className="card-text">
-              {quizQuestion[quesnumber].id}
-              ).
-              {quizQuestion[quesnumber].question}
-            </p>
-            <div className="card">
-              <ul className="list-group list-group-flush">
-                <li className="list-group-item">
-                  <Button
-                    className="btn btn-dark"
-                    onClick={handleQuizAnswer.bind(
-                      this,
-                      quizQuestion[quesnumber].options.option1,
-                      quizQuestion[quesnumber].id
-                    )}
-                  >
-                    {quizQuestion[quesnumber].options.option1}
-                  </Button>
-                </li>
-                <li className="list-group-item">
-                  <Button
-                    className="btn btn-dark"
-                    onClick={handleQuizAnswer.bind(
-                      this,
-                      quizQuestion[quesnumber].options.option2,
-                      quizQuestion[quesnumber].id
-                    )}
-                  >
-                    {quizQuestion[quesnumber].options.option2}
-                  </Button>
-                </li>
-                <li className="list-group-item">
-                  <Button
-                    className="btn btn-dark"
-                    onClick={handleQuizAnswer.bind(
-                      this,
-                      quizQuestion[quesnumber].options.option3,
-                      quizQuestion[quesnumber].id
-                    )}
-                  >
-                    {quizQuestion[quesnumber].options.option3}
-                  </Button>
-                </li>
-                <li className="list-group-item">
-                  <Button
-                    className="btn btn-dark"
-                    onClick={handleQuizAnswer.bind(
-                      this,
-                      quizQuestion[quesnumber].options.option4,
-                      quizQuestion[quesnumber].id
-                    )}
-                  >
-                    {quizQuestion[quesnumber].options.option4}
-                  </Button>
-                </li>
-              </ul>
+      <div
+        style={{
+          color: "#222831",
+          backgroundColor: "#9ba6a5",
+          padding: "5px",
+          marginBottom: "10px",
+        }}
+      >
+        <h1>QUIZ APPLICATION</h1>
+      </div>
+      {/* <hr></hr> */}
+      {quesnumber === 4 ? (
+        <Result answers={answer} array={quizQuestion} score={mark} />
+      ) : (
+        <div className="card text-center text-white bg-secondary mb-3 w-50">
+          <div style={{ backgroundColor: "#222831", padding: "20px" }}>
+            <div className="card-header">
+              <h3>TEST YOUR KNOWLEDGE💡</h3>
             </div>
-          </div>
-          <p className="card-text">
-            {/* {isCorrect ? "Correct Answer" : "Wrong Answer"} */}
-          </p>
-          {/* <p className="card-text">Your total marks : {mark}</p> */}
+            <div className="card-body">
+              <h5 className="card-title">Choose the best answer:</h5>
+              <p className="card-text">
+                {quizQuestion[quesnumber].id}
+                ).
+                {quizQuestion[quesnumber].question}
+              </p>
+              <div className="card">
+                <ul className="list-group list-group-flush">
+                  <li className="list-group-item">
+                    <Button
+                      className="btn btn-dark"
+                      onClick={handleQuizAnswer.bind(
+                        this,
+                        quizQuestion[quesnumber].options.option1,
+                        quizQuestion[quesnumber].id
+                      )}
+                    >
+                      {quizQuestion[quesnumber].options.option1}
+                    </Button>
+                  </li>
+                  <li className="list-group-item">
+                    <Button
+                      className="btn btn-dark"
+                      onClick={handleQuizAnswer.bind(
+                        this,
+                        quizQuestion[quesnumber].options.option2,
+                        quizQuestion[quesnumber].id
+                      )}
+                    >
+                      {quizQuestion[quesnumber].options.option2}
+                    </Button>
+                  </li>
+                  <li className="list-group-item">
+                    <Button
+                      className="btn btn-dark"
+                      onClick={handleQuizAnswer.bind(
+                        this,
+                        quizQuestion[quesnumber].options.option3,
+                        quizQuestion[quesnumber].id
+                      )}
+                    >
+                      {quizQuestion[quesnumber].options.option3}
+                    </Button>
+                  </li>
+                  <li className="list-group-item">
+                    <Button
+                      className="btn btn-dark"
+                      onClick={handleQuizAnswer.bind(
+                        this,
+                        quizQuestion[quesnumber].options.option4,
+                        quizQuestion[quesnumber].id
+                      )}
+                    >
+                      {quizQuestion[quesnumber].options.option4}
+                    </Button>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <p className="card-text">
+              {/* {isCorrect ? "Correct Answer" : "Wrong Answer"} */}
+            </p>
+            {/* <p className="card-text">Your total marks : {mark}</p> */}
 
-          <div className="card-footer text-muted">
-            {quesnumber >= 1 ? (
-              <Button
-                type="button"
-                className="btn btn-success"
-                onClick={handlePreviousQuestion}
-              >
-                ⬅️Previous
-              </Button>
-            ) : (
-              ""
-            )}
-            {quesnumber < 3 ? (
-              <Button
+            <div className="card-footer text-muted">
+              {quesnumber >= 1 ? (
+                <Button
+                  type="button"
+                  className="btn btn-success"
+                  onClick={handlePreviousQuestion}
+                >
+                  ⬅️Previous
+                </Button>
+              ) : (
+                ""
+              )}
+              {/* <Button
                 type="button"
                 className="btn btn-primary"
                 onClick={handleNextQuestion}
               >
-                Next➡️
-              </Button>
-            ) : (
-              ""
-            )}
-            {quesnumber === 3 ? (
-              <Button
-                type="button"
-                className="btn btn-danger"
-                onClick={handleChoosenOptions}
-              >
-                Submit
-              </Button>
-            ) : (
-              ""
-            )}
-            
+                {quesnumber<3 ? ()'Next' : 'Sumbit'}
+              </Button> */}
+              {quesnumber < 4 ? (
+                quesnumber < 3 ? (
+                  <button
+                    className="btn btn-primary"
+                    onClick={handleNextQuestion}
+                  >
+                    Next➡️
+                  </button>
+                ) : (
+                  <button
+                    className="btn btn-danger"
+                    onClick={handleNextQuestion}
+                  >
+                    Submit
+                  </button>
+                )
+              ) : (
+                ""
+              )}
+
+              {/* {quesnumber === 4 ? (
+                <Button
+                  type="button"
+                  className="btn btn-danger"
+                  onClick={handleChoosenOptions}
+                >
+                  Submit
+                </Button>
+              ) : (
+                ""
+              )} */}
+            </div>
           </div>
         </div>
-      </div>)}
-      
+      )}
     </center>
   );
 };
