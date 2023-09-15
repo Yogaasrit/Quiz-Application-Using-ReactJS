@@ -1,4 +1,5 @@
 {
+  "homepage": "http://Yogaasrit.github.io/Quiz-Application-Using-ReactJS",
   "name": "quiz-app",
   "version": "0.1.0",
   "private": true,
@@ -19,6 +20,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "predeploy":"npm run build",
+    "deploy" : "gh-pages -d build",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
@@ -49,6 +52,7 @@
     "eslint-plugin-import": "^2.28.1",
     "eslint-plugin-n": "^16.1.0",
     "eslint-plugin-promise": "^6.1.1",
-    "eslint-plugin-react": "^7.33.2"
+    "eslint-plugin-react": "^7.33.2",
+    "gh-pages": "^6.0.0"
   }
 }
